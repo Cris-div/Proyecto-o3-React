@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import useCharacters from '../hooks/useCharacters';
 import CharacterCard from '../components/list/CharacterCard';
-import Pagination from '../components/common/Pagination';
+import Pagination from '../components/list/Pagination';
 import FilterBar from '../components/list/FilterBar';
 import LoadingSpinner from '../components/common/LoadingSpinner';
 import ErrorAlert from '../components/common/ErrorAlert';
