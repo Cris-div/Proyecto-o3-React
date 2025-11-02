@@ -15,7 +15,7 @@ const useCharacters = (filters , page ) => {
                 setCharacters(data.results);
                 setInfo(data.info);
             } catch (err) {
-                setError(err);
+                setError(err.message);
             } finally {
                 setLoading(false);
             }
