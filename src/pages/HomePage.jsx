@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { getCharacters } from "../services/characterService";
 import "../styles/Home.css";
 
-export default function Home() {
+export default function HomePage() {
   const [characters, setCharacters] = useState([]);
   const navigate = useNavigate();
 
@@ -21,7 +21,6 @@ export default function Home() {
 
   return (
     <div className="home-container">
-      {/* ========== Hero Section ========== */}
       <section className="hero-section">
         <div className="hero-overlay"></div>
         <div className="hero-content">
@@ -31,7 +30,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ========== Sección de Destacados ========== */}
       <section className="featured-section">
         <h2>Personajes Destacados</h2>
 
