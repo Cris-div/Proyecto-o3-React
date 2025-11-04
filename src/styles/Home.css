@@ -1,0 +1,129 @@
+.home-container {
+  background-color: #0b0b0b;
+  color: white;
+  min-height: 100vh;
+  font-family: "Poppins", sans-serif;
+}
+
+.hero-section {
+  position: relative;
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-image: url("../assets/rickymorty-bg.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 700px;
+}
+
+.hero-content h1 {
+  font-size: 3rem;
+  color: #00ff9c;
+  margin-bottom: 1rem;
+}
+
+.hero-content p {
+  font-size: 1.25rem;
+  color: #e0e0e0;
+  margin-bottom: 2rem;
+}
+
+.hero-content button {
+  background-color: #00ff9c;
+  color: #000;
+  font-weight: 600;
+  padding: 12px 32px;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.hero-content button:hover {
+  background-color: #2affb2;
+  transform: scale(1.05);
+}
+
+.featured-section {
+  padding: 80px 40px;
+  background: linear-gradient(180deg, #0b0b0b 0%, #101010 100%);
+  text-align: center;
+}
+
+.featured-section h2 {
+  font-size: 2.5rem;
+  color: #00ff9c;
+  margin-bottom: 50px;
+}
+
+.character-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 30px;
+  justify-content: center;
+}
+
+.character-card {
+  background-color: #1f1f1f;
+  border-radius: 15px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.character-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(0, 255, 156, 0.4);
+}
+
+.character-card img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+}
+
+.character-info {
+  padding: 15px;
+}
+
+.character-info h3 {
+  margin-bottom: 5px;
+  color: #fff;
+}
+
+.character-info p {
+  font-size: 0.9rem;
+  color: #bbb;
+}
+
+.button-container {
+  margin-top: 60px;
+}
+
+.button-container button {
+  background-color: #00ff9c;
+  color: #000;
+  font-weight: 600;
+  padding: 14px 40px;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.button-container button:hover {
+  background-color: #2affb2;
+  transform: scale(1.05);
+}
