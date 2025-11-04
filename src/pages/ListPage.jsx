@@ -5,6 +5,7 @@ import Pagination from '../components/list/Pagination';
 import FilterBar from '../components/list/FilterBar';
 import LoadingSpinner from '../components/common/LoadingSpinner';
 import ErrorAlert from '../components/common/ErrorAlert';
+
 const ListPage = () => {
     const [filters, setFilters] = useState({});
     const [page, setPage] = useState(1);
