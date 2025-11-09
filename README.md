@@ -8,7 +8,11 @@
 
 **Explora el multiverso de Rick & Morty a través de una aplicación web moderna y responsiva**
 
-| [📖 Documentación](https://rickandmortyapi.com/documentation) | 
+🌐 **Demo en vivo:**  
+👉 [https://rick-and-mortyyyy.netlify.app/](https://rick-and-mortyyyy.netlify.app/)
+
+📖 **API utilizada:**  
+[Rick and Morty API - Documentación oficial](https://rickandmortyapi.com/documentation)
 
 </div>
 
@@ -23,9 +27,6 @@
 - [Instalación](#-instalación)
 - [Rutas y Páginas](#-rutas-y-páginas)
 - [Equipo de Desarrollo](#-equipo-de-desarrollo)
-- [Funcionalidades Implementadas](#-funcionalidades-implementadas)
-- [Buenas Prácticas](#-buenas-prácticas)
-- [Recursos y Referencias](#-recursos-y-referencias)
 - [Roadmap Futuro](#-roadmap-futuro)
 
 ---
@@ -403,274 +404,12 @@ Controles:
 <li>Contact page & validación</li>
 <li>API services (Axios)</li>
 <li>Documentación (README)</li>
-<li>Despliegue en producción</li>
+<li>Despliegue</li>
 <li>Testing y debugging</li>
 </ul>
 </td>
 </tr>
 </table>
-
----
-
-## ⚡ Funcionalidades Implementadas
-
-### 1. 🔌 Consumo de API
-
-```javascript
-// Servicio de personajes con Axios
-const characterService = {
-  getCharacters: ({ page = 1, name = '', status = '', species = '' }) => {
-    return api.get('/character', {
-      params: { page, name, status, species }
-    });
-  },
-  
-  getCharacterById: (id) => {
-    return api.get(`/character/${id}`);
-  },
-  
-  getMultipleCharacters: (ids) => {
-    return api.get(`/character/${ids.join(',')}`);
-  }
-};
-```
-
-**Características:**
-- ✅ Manejo de estados: loading, success, error
-- ✅ Reintentos automáticos en caso de fallo
-- ✅ Cache de resultados para optimizar requests
-- ✅ Interceptores de Axios para logging
-
-### 2. 🎣 Custom Hooks
-
-**`useCharacters.js`**
-```javascript
-// Hook para gestionar el listado de personajes
-const useCharacters = () => {
-  const [characters, setCharacters] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [filters, setFilters] = useState({
-    name: '',
-    status: '',
-    species: ''
-  });
-  const [pagination, setPagination] = useState({
-    page: 1,
-    itemsPerPage: 20,
-    totalPages: 0
-  });
-  
-  // Lógica de fetching, filtrado y paginación
-  // ...
-  
-  return {
-    characters,
-    loading,
-    error,
-    filters,
-    pagination,
-    updateFilters,
-    changePage,
-    clearFilters
-  };
-};
-```
-
-### 3. 🔍 Sistema de Búsqueda y Filtrado
-
-**Características:**
-- Búsqueda en tiempo real con **debounce** (300ms)
-- Filtros combinables (nombre + estado + especie)
-- URL query params para compartir filtros
-- Botón de limpieza que resetea todos los filtros
-
-**Flujo de Filtrado:**
-```
-Usuario escribe → Debounce 300ms → Update filters → 
-API Request → Update results → Re-render grid
-```
-
-### 4. 📄 Paginación Inteligente
-
-**Tipos de Paginación Implementados:**
-
-| Items por Página | Estrategia | Descripción |
-|------------------|------------|-------------|
-| **10** | Local Slicing | Corta los 20 resultados de la API |
-| **20** | Direct API | 1 request directo (default API) |
-| **50** | Multi-page Fetch | Combina páginas 1, 2, 3 con cache |
-
-**Componentes de Paginación:**
-- First/Last page buttons
-- Previous/Next navigation
-- Numeric page buttons con ellipsis
-- Page size selector
-- Current page indicator
-
-### 5. ✅ Validación de Formularios
-
-**Patrón de Validación:**
-```javascript
-const validators = {
-  name: (value) => {
-    if (!value.trim()) return 'El nombre es requerido';
-    if (value.length < 3) return 'Mínimo 3 caracteres';
-    if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(value)) 
-      return 'Solo se permiten letras';
-    return '';
-  },
-  
-  email: (value) => {
-    if (!value.trim()) return 'El email es requerido';
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))
-      return 'Email inválido';
-    return '';
-  },
-  
-  message: (value) => {
-    if (!value.trim()) return 'El mensaje es requerido';
-    if (value.length < 10) return 'Mínimo 10 caracteres';
-    return '';
-  }
-};
-```
-
-### 6. 🎨 Componentes Reutilizables
-
-**LoadingSpinner.jsx**
-```jsx
-// Spinner consistente en toda la app
-<div className="spinner-border text-primary" role="status">
-  <span className="visually-hidden">Cargando...</span>
-</div>
-```
-
-**ErrorAlert.jsx**
-```jsx
-// Manejo elegante de errores
-<div className="alert alert-danger" role="alert">
-  <strong>Error:</strong> {errorMessage}
-  <button onClick={retry}>Reintentar</button>
-</div>
-```
-
-**CharacterCard.jsx**
-```jsx
-// Card consistente con hover effects
-<div className="character-card">
-  <img src={image} alt={name} loading="lazy" />
-  <h3>{name}</h3>
-  <StatusBadge status={status} />
-  <p>{species}</p>
-</div>
-```
-
-### 7. 📱 Diseño Responsivo
-
-**Breakpoints de Bootstrap 5:**
-```css
-/* Mobile First Approach */
-.character-grid {
-  display: grid;
-  gap: 1.5rem;
-}
-
-/* Mobile: 1 columna */
-@media (min-width: 576px) {
-  .character-grid { grid-template-columns: repeat(2, 1fr); }
-}
-
-/* Tablet: 2 columnas */
-@media (min-width: 768px) {
-  .character-grid { grid-template-columns: repeat(3, 1fr); }
-}
-
-/* Desktop: 4 columnas */
-@media (min-width: 1200px) {
-  .character-grid { grid-template-columns: repeat(4, 1fr); }
-}
-```
-
----
-
-## ✅ Buenas Prácticas
-
-### 🏗️ Arquitectura
-
-- ✅ **Separación de responsabilidades** (UI, lógica, servicios)
-- ✅ **Componentes reutilizables** con props bien definidos
-- ✅ **Custom hooks** para lógica compartida
-- ✅ **Servicios centralizados** para APIs
-- ✅ **Estructura de carpetas escalable**
-
-### 💻 Código
-
-- ✅ **Nombres descriptivos** en variables y funciones
-- ✅ **Comentarios JSDoc** en funciones complejas
-- ✅ **PropTypes o TypeScript** para validación de props
-- ✅ **Constantes** para valores reutilizados
-- ✅ **DRY (Don't Repeat Yourself)**
-
-### ⚡ Performance
-
-- ✅ **Lazy loading** de imágenes
-- ✅ **Debounce** en búsquedas (300ms)
-- ✅ **Memoización** con `useMemo` y `useCallback`
-- ✅ **Code splitting** por rutas
-- ✅ **Cache de resultados** API
-
-### 🎨 UI/UX
-
-- ✅ **Loading states** en todas las operaciones async
-- ✅ **Error boundaries** para capturar errores
-- ✅ **Feedback visual** inmediato en acciones
-- ✅ **Animaciones suaves** (transitions CSS)
-- ✅ **Hover effects** en elementos interactivos
-
-### ♿ Accesibilidad
-
-- ✅ **Etiquetas ARIA** en elementos interactivos
-- ✅ **Alt text** en todas las imágenes
-- ✅ **Contraste de colores** WCAG AA
-- ✅ **Navegación por teclado** funcional
-- ✅ **Focus visible** en inputs y botones
-
-### 🔐 Seguridad
-
-- ✅ **Validación client-side** de formularios
-- ✅ **Sanitización de inputs** antes de enviar
-- ✅ **HTTPS only** en producción
-- ✅ **No exposición de datos sensibles**
-
----
-
-## 📚 Recursos y Referencias
-
-### Documentación Oficial
-
-| Recurso | Link | Descripción |
-|---------|------|-------------|
-| **Rick and Morty API** | [docs](https://rickandmortyapi.com/documentation) | API REST gratuita y documentada |
-| **React 19** | [docs](https://react.dev/) | Documentación oficial de React |
-| **Vite** | [docs](https://vitejs.dev/) | Build tool moderna |
-| **React Router** | [docs](https://reactrouter.com/) | Routing library oficial |
-| **Bootstrap 5.3** | [docs](https://getbootstrap.com/docs/5.3/) | Framework CSS |
-| **Axios** | [docs](https://axios-http.com/) | Cliente HTTP |
-
-### Tutoriales Recomendados
-
-- 📺 [React Hooks en Profundidad](https://react.dev/reference/react)
-- 📺 [Consumo de APIs con Axios](https://axios-http.com/docs/intro)
-- 📺 [React Router v6+ Tutorial](https://reactrouter.com/en/main/start/tutorial)
-- 📺 [Bootstrap 5 Grid System](https://getbootstrap.com/docs/5.3/layout/grid/)
-
-### Herramientas de Desarrollo
-
-- 🛠️ **Vite DevTools** - Debugging y hot reload
-- 🛠️ **React Developer Tools** - Inspección de componentes
-- 🛠️ **Redux DevTools** - (Si implementas Redux)
-- 🛠️ **Postman** - Testing de API endpoints
 
 ---
 
@@ -717,92 +456,21 @@ const validators = {
 
 ## 🌐 Despliegue
 
-### Plataformas Recomendadas
+El proyecto está actualmente desplegado en **Netlify**:  
+🔗 [https://rick-and-mortyyyy.netlify.app/](https://rick-and-mortyyyy.netlify.app/)
 
-| Plataforma | Facilidad | Características | Precio |
-|------------|-----------|-----------------|--------|
-| **Vercel** ⭐ | ⚡ Muy fácil | Auto-deploy, Analytics | Gratis |
-| **Netlify** | ⚡ Muy fácil | Forms, Functions | Gratis |
-| **Railway** | ⚙️ Moderado | Full-stack support | Gratis |
-| **GitHub Pages** | ⚙️ Moderado | Hosting estático | Gratis |
-
-### Deploy en Vercel (Recomendado)
-
-```bash
-# 1. Instalar Vercel CLI
-npm install -g vercel
-
-# 2. Login
-vercel login
-
-# 3. Deploy
-vercel
-
-# 4. Deploy a producción
-vercel --prod
-```
-
-### Deploy en Netlify
-
-```bash
-# 1. Build local
-npm run build
-
-# 2. Instalar Netlify CLI
-npm install -g netlify-cli
-
-# 3. Deploy
-netlify deploy --prod --dir=dist
-```
-
-### Variables de Entorno
-
-```env
-# .env.production
-VITE_API_BASE_URL=https://rickandmortyapi.com/api
-VITE_APP_NAME=Rick & Morty Characters
-VITE_APP_VERSION=1.0.0
-```
-
----
-
-## 🐛 Troubleshooting
-
-### Problemas Comunes
-
-**1. Error al instalar dependencias**
-```bash
-# Limpiar cache de npm
-npm cache clean --force
-rm -rf node_modules package-lock.json
-npm install
-```
-
-**2. Puerto 5173 en uso**
-```bash
-# Cambiar puerto en vite.config.js
-export default defineConfig({
-  server: { port: 3000 }
-})
-```
-
-**3. CORS errors en desarrollo**
-```javascript
-// Configurar proxy en vite.config.js
-export default defineConfig({
-  server: {
-    proxy: {
-      '/api': 'https://rickandmortyapi.com'
-    }
-  }
-})
-```
+### Detalles del Deploy
+- **Plataforma:** Netlify  
+- **Build Command:** `npm run build`  
+- **Public Directory:** `dist`  
+- **Branch conectada:** `main` del repositorio en GitHub  
+- **Integración continua:** Cada push al repositorio actualiza automáticamente la versión publicada.
 
 ---
 
 ## 📝 Licencia
 
-Este proyecto es de código abierto y está disponible bajo la licencia MIT para fines educativos.
+Este proyecto es de código abierto para fines educativos.
 
 **Nota sobre los datos:**  
 Los datos de personajes son proporcionados por la [Rick and Morty API](https://rickandmortyapi.com) y son propiedad de © Adult Swim / Cartoon Network.
@@ -813,18 +481,26 @@ Los datos de personajes son proporcionados por la [Rick and Morty API](https://r
 
 Este proyecto fue desarrollado con fines académicos, pero las contribuciones son bienvenidas:
 
-1. 🍴 Fork el proyecto
-2. 🌿 Crea una rama (`git checkout -b feature/nueva-funcionalidad`)
-3. 💾 Commit tus cambios (`git commit -m 'Agrega nueva funcionalidad'`)
-4. 📤 Push a la rama (`git push origin feature/nueva-funcionalidad`)
+1. 🍴 Fork el proyecto  
+2. 🌿 Crea una rama (`git checkout -b feature/nueva-funcionalidad`)  
+3. 💾 Commit tus cambios (`git commit -m 'Agrega nueva funcionalidad'`)  
+4. 📤 Push a la rama (`git push origin feature/nueva-funcionalidad`)  
 5. 🔃 Abre un Pull Request
 
 ---
 
 ## 📞 Contacto y Soporte
 
-zjosue775@gmail.com
+📧 **Correo:** zjosue775@gmail.com  
 
 ### Enlaces del Proyecto
+- 📦 **Repositorio:** [https://github.com/Cris-div/Proyecto-o3-React.git](https://github.com/Cris-div/Proyecto-o3-React.git)  
+- 🌐 **Deploy:** [https://rick-and-mortyyyy.netlify.app/](https://rick-and-mortyyyy.netlify.app/)
 
-- 📦 **Repositorio:** [https://github.com/Cris-div/Proyecto-o3-React.git](https://github.com/Cris-div/Proyecto-o3-React.git)
+---
+
+<div align="center">
+
+💫 Desarrollado con 💚 por el equipo de **CHIRIBAYAS 03**
+
+</div>
